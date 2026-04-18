@@ -6,7 +6,38 @@ A 25-lesson hands-on introduction to the Rust programming language. Every lesson
 
 All you need is **Docker**. No local Rust toolchain required.
 
-The `rust:latest` image contains the full Rust toolchain (rustc, cargo) and is used for every lesson.
+We use a small custom image, `rust-tutorial:latest`, built from the [Dockerfile](./Dockerfile) in this repo. It extends the official `rust:latest` image with `vim` so you can edit lesson code directly inside the container.
+
+Build the image once (from the repo root):
+
+```bash
+docker build -t rust-tutorial:latest .
+```
+
+## Logging into the container
+
+Start a long-running dev container with the tutorials mounted:
+
+```bash
+docker run -d --name rust-dev \
+    -v "$PWD":/work -w /work \
+    rust-tutorial:latest sleep infinity
+```
+
+Then shell into it any time:
+
+```bash
+docker exec -it rust-dev bash
+```
+
+PowerShell variant:
+
+```powershell
+docker run -d --name rust-dev -v ${PWD}:/work -w /work rust-tutorial:latest sleep infinity
+docker exec -it rust-dev bash
+```
+
+Inside the container you can `vim 01-hello-world/main.rs`, `rustc ...`, `cargo new ...`, etc. Files are mounted live from your host.
 
 ## Directory layout
 
@@ -43,7 +74,7 @@ This mounts the lesson folder into the rust docker container, compiles `main.rs`
 
 ```bash
 cd 01-hello-world
-docker run --rm -v "$PWD":/app -w /app rust:latest \
+docker run --rm -v "$PWD":/app -w /app rust-tutorial:latest \
     sh -c "rustc main.rs -o /tmp/program && /tmp/program"
 ```
 
@@ -51,7 +82,7 @@ On Windows PowerShell:
 
 ```powershell
 cd 01-hello-world
-docker run --rm -v ${PWD}:/app -w /app rust:latest `
+docker run --rm -v ${PWD}:/app -w /app rust-tutorial:latest `
     sh -c "rustc main.rs -o /tmp/program && /tmp/program"
 ```
 

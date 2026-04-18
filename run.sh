@@ -33,5 +33,5 @@ ABS_DIR="$(cd "$LESSON_DIR" && pwd)"
 docker run --rm \
     -v "$ABS_DIR":/app \
     -w /app \
-    rust:latest \
+    rust-tutorial:latest \
     sh -c "rustc main.rs -o /tmp/program 2>&1 && echo '--- program output ---' && /tmp/program"

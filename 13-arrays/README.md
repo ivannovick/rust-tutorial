@@ -20,8 +20,9 @@ For resizable sequences, see Lesson 17 (Vectors).
 
 ## What this program shows
 
-- An array of the next 7 departing flight numbers.
-- Printing them one by one.
+- An array of the next 7 departing flight numbers (`[&str; 7]`).
+- A second array of 20 active gate numbers (`[i32; 20]`) — showing an integer array of a different length.
+- Iterating each, plus using `.len()` to ask an array its size.
 
 ## Run it
 
@@ -40,4 +41,8 @@ For resizable sequences, see Lesson 17 (Vectors).
 5. AS7890
 6. B61122
 7. NK3344
+
+=== 20 Active Gates in Terminal B ===
+1 2 3 4 5 7 8 9 11 12 14 15 17 18 19 20 22 24 25 27
+(total gates: 20)
 ```

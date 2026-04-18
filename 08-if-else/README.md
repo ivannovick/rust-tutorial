@@ -27,9 +27,9 @@ You can chain `else if` branches for multi-way decisions.
 
 ```
 Flight AA1234 status: on_time
-  --> On time. Boarding will begin shortly.
+  --> Flight AA1234: On time. Boarding will begin shortly.
 Flight UA5678 status: delayed
-  --> Delayed. Please check the departure board for updates.
+  --> Flight UA5678: Delayed. Please check the departure board for updates.
 Flight DL9012 status: cancelled
-  --> Cancelled. Please contact the rebooking desk.
+  --> Flight DL9012: Cancelled. Please contact the rebooking desk.
 ```

@@ -1,0 +1,9 @@
+# Compiled rustc output (no extension on Linux/macOS, .exe on Windows)
+main
+main.exe
+*.pdb
+*.rlib
+
+# Any `cargo new` artifacts if added later
+target/
+Cargo.lock

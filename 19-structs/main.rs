@@ -9,29 +9,32 @@ struct Flight {
     seats_available: u32,
 }
 
+// A tiny `impl` block with a constructor. (Full `impl` + methods coverage
+// is in Lesson 24 — here we just use it to make construction cleaner.)
+//
+// Taking &str parameters and converting internally means callers can pass
+// plain string literals instead of wrapping each one in String::from(...).
+// `Self` is shorthand for the surrounding type — `Flight` in this case.
+impl Flight {
+    fn new(number: &str, destination: &str, gate: u32, seats_available: u32) -> Self {
+        Self {
+            number: number.to_string(),
+            destination: destination.to_string(),
+            // `gate` and `seats_available` are already the right type —
+            // no conversion needed, and we use the field-init shorthand
+            // (write `gate` once instead of `gate: gate`).
+            gate,
+            seats_available,
+        }
+    }
+}
+
 fn main() {
-    // Construct three flights. Field order in the literal doesn't matter,
-    // but every field must be set.
-    let f1 = Flight {
-        number: String::from("AA1234"),
-        destination: String::from("San Francisco"),
-        gate: 17,
-        seats_available: 42,
-    };
-
-    let f2 = Flight {
-        number: String::from("UA5678"),
-        destination: String::from("Chicago"),
-        gate: 22,
-        seats_available: 8,
-    };
-
-    let f3 = Flight {
-        number: String::from("DL9012"),
-        destination: String::from("Atlanta"),
-        gate: 3,
-        seats_available: 110,
-    };
+    // Types are inferred throughout — `let f1 = Flight::new(...)` gives
+    // us a `Flight` without ever writing that type out.
+    let f1 = Flight::new("AA1234", "San Francisco", 17, 42);
+    let f2 = Flight::new("UA5678", "Chicago",       22,  8);
+    let f3 = Flight::new("DL9012", "Atlanta",        3, 110);
 
     // Borrow each flight when printing so the originals stay usable.
     print_flight(&f1);

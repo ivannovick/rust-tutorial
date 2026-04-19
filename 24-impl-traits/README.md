@@ -1,35 +1,42 @@
 # Lesson 24 — `impl`, methods, and traits
 
-## Concept
+## Why traits?
 
-You attach **methods** to a type using an `impl` block:
+Imagine the airport display board. It has to print a one-line summary for **different kinds of things**: flights, passengers, baggage. Each type formats its line differently (a flight talks about gates; a bag talks about weight), but the caller — the board — just wants *one* function that handles all of them.
+
+**Without traits** you'd end up writing:
 
 ```rust
-impl Flight {
-    fn is_full(&self) -> bool {
-        self.seats_available == 0
-    }
+fn print_flight_summary(f: &Flight)       { ... }
+fn print_passenger_summary(p: &Passenger) { ... }
+fn print_baggage_summary(b: &Baggage)     { ... }
+// ...and a separate loop per collection.
+```
+
+**With a trait**, you declare a single contract — "anything printable on the board must have a `summary()` method" — and then write **one** function that accepts any of them:
+
+```rust
+fn print_to_board(item: &dyn DisplaySummary) {
+    println!("{}", item.summary());
 }
 ```
 
-`&self` means "a shared reference to the instance I'm being called on."
-`&mut self` means "I need to modify the instance."
+You can also mix types in a single `Vec<&dyn DisplaySummary>` and iterate once, with the right `summary()` called for each element at runtime.
 
-A **trait** is a set of methods a type can implement — similar to an interface in other languages:
+## Terminology
 
-```rust
-trait DisplaySummary {
-    fn summary(&self) -> String;
-}
-```
-
-Multiple types can implement the same trait, enabling polymorphism.
+- **`impl` block**: attaches methods to a type. `&self` = borrow, `&mut self` = mutable borrow.
+- **Inherent methods**: declared in `impl Flight { ... }`. Only callable on `Flight` values.
+- **Trait**: a set of method signatures any type can implement (think: interface).
+- **Trait impl**: `impl DisplaySummary for Flight { ... }` — wires a type to a trait.
+- **`&dyn Trait`**: a reference to some value that implements `Trait` — enables heterogeneous collections.
 
 ## What this program shows
 
-- A `Flight` struct with methods `is_full()` and `check_in()`.
-- A `DisplaySummary` trait implemented by both `Flight` and `Passenger`.
-- A single loop prints summaries of mixed types by calling `.summary()`.
+- Three very different types — `Flight`, `Passenger`, `Baggage` — each implementing the **same** trait `DisplaySummary` in its **own** way (different wording, different fields, even a conditional `*FF*` / `!!HEAVY!!` tag).
+- One `print_to_board` function that accepts any `&dyn DisplaySummary`.
+- A single `Vec<&dyn DisplaySummary>` holding all three types, iterated in one loop.
+- `Flight` also has **inherent** methods (`is_full`, `check_in`) that only exist on `Flight` — showing the difference between trait methods and type-specific methods.
 
 ## Run it
 
@@ -40,11 +47,21 @@ Multiple types can implement the same trait, enabling polymorphism.
 ## Expected output
 
 ```
-[summary] Flight AA1234 to San Francisco - Gate 17 - 2 seats left
-[summary] Passenger Alice Nguyen (Confirmed)
-Flight AA1234 full? false
-Checking in a passenger on AA1234...
-Flight AA1234 full? false
-Checking in a passenger on AA1234...
-Flight AA1234 full? true
+=== Single function, three different types ===
+[FLIGHT]    AA1234 -> San Francisco | gate 17 | 2 seats left
+[PASSENGER] Alice Nguyen in seat 14A *FF*
+[BAGGAGE]   tag BAG-0001 | 18.5 kg
+
+=== Mixed Vec, one loop ===
+[FLIGHT]    AA1234 -> San Francisco | gate 17 | 2 seats left
+[PASSENGER] Alice Nguyen in seat 14A *FF*
+[PASSENGER] Bob Patel in seat 22C
+[BAGGAGE]   tag BAG-0001 | 18.5 kg
+[BAGGAGE]   tag BAG-0002 | 27.2 kg  !!HEAVY!!
+
+=== Inherent methods only on Flight ===
+Flight full? false
+Checking in a passenger...
+Checking in another passenger...
+Flight full now? true
 ```

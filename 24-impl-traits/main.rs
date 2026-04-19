@@ -120,7 +120,7 @@ impl DisplaySummary for Baggage {
 // The compiler looks up the right `summary()` at runtime via a vtable.
 // This is how we get heterogeneous collections in Rust.
 fn print_to_board(item: &dyn DisplaySummary) {
-    println!("{}", item.summary());
+    println!("BOARD: {}", item.summary());
 }
 
 // --- main --------------------------------------------------------------
@@ -145,7 +145,7 @@ fn main() {
     let board: Vec<&dyn DisplaySummary> = vec![&flight, &alice, &bob, &bag1, &bag2];
     for item in &board {
         // Every `item` gets dispatched to its own type's `summary()`.
-        println!("{}", item.summary());
+        println!("ITEM: {}", item.summary());
     }
 
     println!();

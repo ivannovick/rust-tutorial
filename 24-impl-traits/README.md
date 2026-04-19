@@ -48,16 +48,16 @@ You can also mix types in a single `Vec<&dyn DisplaySummary>` and iterate once, 
 
 ```
 === Single function, three different types ===
-[FLIGHT]    AA1234 -> San Francisco | gate 17 | 2 seats left
-[PASSENGER] Alice Nguyen in seat 14A *FF*
-[BAGGAGE]   tag BAG-0001 | 18.5 kg
+BOARD: [FLIGHT]    AA1234 -> San Francisco | gate 17 | 2 seats left
+BOARD: [PASSENGER] Alice Nguyen in seat 14A *FF*
+BOARD: [BAGGAGE]   tag BAG-0001 | 18.5 kg
 
 === Mixed Vec, one loop ===
-[FLIGHT]    AA1234 -> San Francisco | gate 17 | 2 seats left
-[PASSENGER] Alice Nguyen in seat 14A *FF*
-[PASSENGER] Bob Patel in seat 22C
-[BAGGAGE]   tag BAG-0001 | 18.5 kg
-[BAGGAGE]   tag BAG-0002 | 27.2 kg  !!HEAVY!!
+ITEM: [FLIGHT]    AA1234 -> San Francisco | gate 17 | 2 seats left
+ITEM: [PASSENGER] Alice Nguyen in seat 14A *FF*
+ITEM: [PASSENGER] Bob Patel in seat 22C
+ITEM: [BAGGAGE]   tag BAG-0001 | 18.5 kg
+ITEM: [BAGGAGE]   tag BAG-0002 | 27.2 kg  !!HEAVY!!
 
 === Inherent methods only on Flight ===
 Flight full? false

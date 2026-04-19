@@ -23,7 +23,21 @@ Key things to know:
 
 - A route map from flight numbers to destinations.
 - Insert, update (via `insert` with same key), and look up an entry.
-- Print each route.
+- A tour of commonly used `HashMap` methods:
+
+| Method                                            | What it does                                         |
+|---------------------------------------------------|------------------------------------------------------|
+| `HashMap::new()` / `HashMap::from([...])`         | empty / from literal array of `(K, V)` tuples        |
+| `.insert(k, v)`                                   | add or replace; returns old value as `Option<V>`     |
+| `.get(k)`                                         | lookup, returns `Option<&V>`                         |
+| `.contains_key(k)`                                | membership check                                     |
+| `.remove(k)`                                      | remove key, returns `Option<V>`                      |
+| `.len()` / `.is_empty()` / `.clear()`             | size / emptiness / empty everything                  |
+| `.keys()` / `.values()` / `.iter()`               | read-only iterators                                  |
+| `.values_mut()` / `.iter_mut()`                   | iterate and mutate values in place                   |
+| `.entry(k).or_insert(v)`                          | get-or-insert; returns `&mut V` so you can bump it   |
+| `.entry(k).and_modify(f).or_insert(v)`            | classic upsert — modify if present, insert if not    |
+| `.extend(iter)`                                   | bulk insert from an iterator of `(K, V)` pairs       |
 
 ## Run it
 
@@ -35,13 +49,25 @@ Key things to know:
 
 ```
 AA1234 -> San Francisco
-UA5678 -> Chicago
 DL9012 -> Atlanta
+UA5678 -> Chicago
 
 Looking up AA1234: San Francisco
 Updating UA5678 destination to Denver...
 
 AA1234 -> San Francisco
-UA5678 -> Denver
 DL9012 -> Atlanta
+UA5678 -> Denver
+
+=== More HashMap conveniences ===
+Route count: 3 (empty? false)
+Have AA1234? true
+Have XX9999? false
+Removed DL9012 (was heading to Atlanta)
+All gate numbers (sorted): [3, 17, 22]
+After renumbering: [("AA1234", 117), ("UA5678", 122), ("WN3456", 103)]
+Bag counts: [("AA1234", 3), ("UA5678", 2), ("WN3456", 1)]
+After upsert UA5678 += 5: Some(7)
+After extend, map size: 5
+After clear: empty? true
 ```

@@ -39,7 +39,7 @@ enum Event {
 ## Expected output
 
 ```
-Alice Nguyen:  CheckedIn
+Alice Nguyen:  Checked In
 Bob Patel:     Confirmed
 Carol Singh:   Standby
 Dan O'Reilly:  Boarded

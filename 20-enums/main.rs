@@ -30,7 +30,7 @@ fn label(status: &BookingStatus) -> &'static str {
     match status {
         BookingStatus::Confirmed => "Confirmed",
         BookingStatus::Standby   => "Standby",
-        BookingStatus::CheckedIn => "CheckedIn",
+        BookingStatus::CheckedIn => "Checked In",
         BookingStatus::Boarded   => "Boarded",
     }
 }
